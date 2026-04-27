@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Car Shop</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f5f5f5;
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 20px;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .card {
+            background: white;
+            margin: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            width: 300px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .price {
+            color: green;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        button {
+            padding: 10px;
+            background: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: darkgreen;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>🚗 My Car Shop</h1>
+
+<div class="container">
+    {% for car in cars %}
+    <div class="card">
+        <img src="{{ url_for('static', filename=car.image) }}">
+        <h3>{{ car.name }}</h3>
+        <p>{{ car.desc }}</p>
+        <p class="price">{{ car.price }}</p>
+
+        <a href="https://wa.me/234XXXXXXXXXX">
+            <button>Contact on WhatsApp</button>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+</body>
+</html>
