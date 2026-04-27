@@ -1,77 +1,141 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My Car Shop</title>
+    <title>Car Max Models</title>
+
     <style>
         body {
-            font-family: Arial;
-            background: #f5f5f5;
+            font-family: Arial, sans-serif;
+            background: #f5f7fa;
+            margin: 0;
+        }
+
+        /* HEADER */
+        .header {
+            background: #002f6c;
+            color: white;
             text-align: center;
+            padding: 15px;
         }
 
-        h1 {
-            margin-top: 20px;
-        }
-
+        /* CONTAINER */
         .container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
+            gap: 20px;
+            padding: 20px;
         }
 
+        /* CARD */
         .card {
             background: white;
-            margin: 15px;
+            border-radius: 10px;
+            width: 260px;
             padding: 15px;
-            border-radius: 10px;
-            width: 300px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
         }
 
-        img {
+        /* IMAGE */
+        .card img {
             width: 100%;
-            border-radius: 10px;
+            border-radius: 8px;
         }
 
+        /* TITLE */
+        .card h3 {
+            color: #002f6c;
+        }
+
+        /* PRICE */
         .price {
-            color: green;
+            color: #1a7f37;
             font-size: 20px;
             font-weight: bold;
         }
 
-        button {
-            padding: 10px;
-            background: green;
+        /* BUTTON */
+        .buy-btn {
+            background: #002f6c;
             color: white;
+            padding: 12px;
+            width: 100%;
             border: none;
-            border-radius: 5px;
+            border-radius: 6px;
+            font-weight: bold;
+            margin-top: 10px;
             cursor: pointer;
         }
 
-        button:hover {
-            background: darkgreen;
+        .buy-btn:hover {
+            background: #001f4d;
+        }
+
+        .trust {
+            font-size: 12px;
+            color: gray;
         }
     </style>
 </head>
 
 <body>
 
-<h1>🚗 My Car Shop</h1>
-
-<div class="container">
-    {% for car in cars %}
-    <div class="card">
-        <img src="{{ url_for('static', filename=car.image) }}">
-        <h3>{{ car.name }}</h3>
-        <p>{{ car.desc }}</p>
-        <p class="price">{{ car.price }}</p>
-
-        <a href="https://wa.me/234XXXXXXXXXX">
-            <button>Contact on WhatsApp</button>
-        </a>
+    <!-- HEADER -->
+    <div class="header">
+        <h1>🚗 Car Max Models</h1>
+        <p>Trusted car marketplace • Secure payment • Fast delivery</p>
     </div>
-    {% endfor %}
-</div>
+
+    <!-- CAR LIST -->
+    <div class="container">
+
+        {% for car in cars %}
+        <div class="card">
+
+            <img src="{{ url_for('static', filename=car.image) }}">
+
+            <h3>{{ car.name }}</h3>
+            <p>{{ car.desc }}</p>
+
+            <p class="price">${{ car.price }}</p>
+
+            <button class="buy-btn" onclick="pay('{{ car.price }}', '{{ car.name }}')">
+                Buy Now
+            </button>
+
+            <p class="trust">🔒 Secure payment</p>
+
+        </div>
+        {% endfor %}
+
+    </div>
+
+    <!-- STRIPE -->
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <script>
+        var stripe = Stripe("YOUR_PUBLISHABLE_KEY");
+
+        function pay(price, name) {
+            fetch("/create-checkout-session", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    price: price,
+                    name: name
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                stripe.redirectToCheckout({
+                    sessionId: data.id
+                });
+            });
+        }
+    </script>
 
 </body>
 </html>
