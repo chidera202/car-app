@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 import stripe
 
-app = Flask(name)
+app = Flask(__name__)
 
 # 🔑 PUT YOUR STRIPE SECRET KEY HERE
 stripe.api_key = "sk_test_XXXXXXXX"
