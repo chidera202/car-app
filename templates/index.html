@@ -1,141 +1,113 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Car Max Models</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f5f7fa;
+    }
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f7fa;
-            margin: 0;
-        }
+    /* NAVBAR */
+    .navbar {
+        background: #002f6c;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        padding: 15px 30px;
+        align-items: center;
+    }
 
-        /* HEADER */
-        .header {
-            background: #002f6c;
-            color: white;
-            text-align: center;
-            padding: 15px;
-        }
+    .nav-links span {
+        margin-left: 20px;
+        cursor: pointer;
+    }
 
-        /* CONTAINER */
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            padding: 20px;
-        }
+    /* HERO */
+    .hero {
+        text-align: center;
+        padding: 30px;
+        background: white;
+    }
 
-        /* CARD */
-        .card {
-            background: white;
-            border-radius: 10px;
-            width: 260px;
-            padding: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            text-align: center;
-        }
+    .hero h1 {
+        margin: 0;
+        color: #002f6c;
+    }
 
-        /* IMAGE */
-        .card img {
-            width: 100%;
-            border-radius: 8px;
-        }
+    /* SEARCH BAR */
+    .search {
+        margin-top: 15px;
+    }
 
-        /* TITLE */
-        .card h3 {
-            color: #002f6c;
-        }
+    .search input {
+        padding: 10px;
+        width: 250px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+    }
 
-        /* PRICE */
-        .price {
-            color: #1a7f37;
-            font-size: 20px;
-            font-weight: bold;
-        }
+    /* CONTAINER */
+    .container {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        padding: 20px;
+    }
 
-        /* BUTTON */
-        .buy-btn {
-            background: #002f6c;
-            color: white;
-            padding: 12px;
-            width: 100%;
-            border: none;
-            border-radius: 6px;
-            font-weight: bold;
-            margin-top: 10px;
-            cursor: pointer;
-        }
+    /* CARD */
+    .card {
+        background: white;
+        width: 270px;
+        border-radius: 10px;
+        padding: 15px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
 
-        .buy-btn:hover {
-            background: #001f4d;
-        }
+    .card img {
+        width: 100%;
+        border-radius: 8px;
+    }
 
-        .trust {
-            font-size: 12px;
-            color: gray;
-        }
-    </style>
-</head>
+    .price {
+        color: #1a7f37;
+        font-weight: bold;
+        font-size: 20px;
+    }
 
-<body>
+    .monthly {
+        color: gray;
+        font-size: 13px;
+    }
 
-    <!-- HEADER -->
-    <div class="header">
-        <h1>🚗 Car Max Models</h1>
-        <p>Trusted car marketplace • Secure payment • Fast delivery</p>
-    </div>
+    .btn {
+        width: 100%;
+        padding: 12px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 6px;
+        font-weight: bold;
+        cursor: pointer;
+    }
 
-    <!-- CAR LIST -->
-    <div class="container">
+    .buy-btn {
+        background: #002f6c;
+        color: white;
+    }
 
-        {% for car in cars %}
-        <div class="card">
+    .details-btn {
+        background: #e5e7eb;
+    }
 
-            <img src="{{ url_for('static', filename=car.image) }}">
+    .trust {
+        font-size: 12px;
+        color: gray;
+        margin-top: 8px;
+    }
 
-            <h3>{{ car.name }}</h3>
-            <p>{{ car.desc }}</p>
-
-            <p class="price">{{ car.price }}</p>
-
-            <button class="buy-btn" onclick="pay('{{ car.price }}', '{{ car.name }}')">
-                Buy Now
-            </button>
-
-            <p class="trust">🔒 Secure payment</p>
-
-        </div>
-        {% endfor %}
-
-    </div>
-
-    <!-- STRIPE -->
-    <script src="https://js.stripe.com/v3/"></script>
-
-    <script>
-        var stripe = Stripe("YOUR_PUBLISHABLE_KEY");
-
-        function pay(price, name) {
-            fetch("/create-checkout-session", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    price: price,
-                    name: name
-                })
-            })
-            .then(res => res.json())
-            .then(data => {
-                stripe.redirectToCheckout({
-                    sessionId: data.id
-                });
-            });
-        }
-    </script>
-
-</body>
-</html>
+    /* FOOTER */
+    .footer {
+        text-align: center;
+        padding: 20px;
+        background: #002f6c;
+        color: white;
+    }
+</style>
