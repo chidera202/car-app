@@ -98,7 +98,7 @@
             <h3>{{ car.name }}</h3>
             <p>{{ car.desc }}</p>
 
-            <p class="price">${{ car.price }}</p>
+            <p class="price">{{ car.price }}</p>
 
             <button class="buy-btn" onclick="pay('{{ car.price }}', '{{ car.name }}')">
                 Buy Now
